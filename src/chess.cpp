@@ -96,5 +96,22 @@ std::vector<Move> Chess::generateMoves() {
   //for (int i=0; i<moves.size(); i++) {
   //  std::cout << moves.at(i).toString() << std::endl;
   //}
+
+  // TODO filter leagal chess
   return moves;
+}
+
+void Chess::applyMove(Move move) {
+  // capture or pawn move
+  if (isOpponents(move.getTo()) || m_board[move.getFrom()] == Pawn * m_playerToMove) {
+    m_drawPlyCounter += 1;
+  } else {
+    m_drawPlyCounter += 1;
+  }
+  m_playerToMove = static_cast<Player>(m_playerToMove * -1);
+  
+  m_board[move.getTo()] = move.getPromoteTo() == empty ? m_board[move.getFrom()] : move.getPromoteTo();
+  m_board[move.getFrom()] = empty;
+
+  // TODO castling
 }

@@ -38,6 +38,8 @@ private:
   void queenMove(Square square, std::vector<Move>& moves);
   void kingMove(Square square, std::vector<Move>& moves);
 
+  void applyMove(Move move);
+
   bool isBackRank(int y);
   bool is2ndRank(int y);
   bool isEmpty(Square square);

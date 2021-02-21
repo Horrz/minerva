@@ -17,6 +17,18 @@ Move::Move(Square from, Square to, Piece promoteTo) {
 
 Move::~Move() {}
 
+Square Move::getFrom() {
+  return m_from;
+}
+
+Square Move::getTo(){
+  return m_to;
+}
+
+Piece Move::getPromoteTo(){
+  return m_promoteTo;
+}
+
 std::string Move::toString() {
 	std::string moveNotation = "";
   moveNotation += GetFile(m_from) + 'a';
