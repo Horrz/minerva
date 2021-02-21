@@ -5,57 +5,67 @@
 #include <string>
 
 #include "../header/engine.h"
+#include "../header/uci.h"
 
-namespace minerva {
-  void write(const std::string& message) {
-    std::cout << message << std::endl;
-  }
+UCI::UCI() {}
 
-  void id() {
-    write("id name minerva");
-    write("id author Martin Horatschek");
-  }
+void UCI::write(const std::string& message) {
+  std::cout << message << std::endl;
+}
 
-  void isready() {
-    write("readyok");
-  }
+void UCI::id() {
+  write("id name minerva");
+  write("id author Martin Horatschek");
+}
 
-  void options() {
-    write("");
-  }
+void UCI::isready() {
+  write("readyok");
+}
 
-  void uciok() {
-    write("uciok");
-  }
+void UCI::options() {
+  write("");
+}
 
-  int respond(const std::string& input, minerva::Engine& engine) {
-    if (std::regex_match(input, std::regex("isready") )) { 
-      isready();
-      return 0;
-    }
+void UCI::uciok() {
+  write("uciok");
+}
 
-    if (std::regex_match(input, std::regex("uci") )) { 
-      id();
-      options();
-      uciok();
-      return 0;
-    }
-    if (std::regex_match(input, std::regex("ucinewgame") )) { 
-      engine.reset();
-      return 0;
-    }
-    if (std::regex_match(input, std::regex("go") )) { 
-      engine.analyze();
-      return 0;
-    }
-
-    if (std::regex_match(input, std::regex("quit") )) {
-      engine.stop();
-      // shut down the program
-      return 1;
-    }
-    
-    std::cerr << "command unknwon: " << input << std::endl;
+int UCI::respond(const std::string& input, Engine& engine) {
+  if (std::regex_match(input, std::regex("^isready") )) { 
+    isready();
     return 0;
   }
+
+  if (std::regex_match(input, std::regex("^uci") )) { 
+    id();
+    options();
+    uciok();
+    return 0;
+  }
+  if (std::regex_match(input, std::regex("^ucinewgame") )) { 
+    engine.reset();
+    return 0;
+  }
+  if (std::regex_match(input, std::regex("^go(.*)") )) { 
+    engine.analyze();
+    return 0;
+  }
+
+  if (std::regex_match(input, std::regex("^stop") )) {
+    if (engine.isThinking()) {
+      write("bestmove " + engine.move());
+    }
+    return 0;
+  }
+
+  if (std::regex_match(input, std::regex("^quit") )) {
+    if (engine.isThinking()) {
+      write("bestmove " + engine.move());
+    }
+    // shut down the program
+    return 1;
+  }
+  
+  std::cerr << "command unknwon: " << input << std::endl;
+  return 0;
 }

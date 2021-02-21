@@ -1,4 +1,5 @@
 #include <iostream>
+#include <new>
 #include <string>
 
 #include "../header/engine.h"
@@ -7,11 +8,11 @@
 
 int main(void) {
   std::string input;
-  minerva::Engine engine;
+  Engine engine = Engine();
 
   while (true) {
     std::getline(std::cin, input);
-    if (minerva::respond(input, engine)) {
+    if (UCI::respond(input, engine)) {
       return 0;
     }
   }
