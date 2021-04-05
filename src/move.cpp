@@ -29,7 +29,7 @@ Piece Move::getPromoteTo(){
   return m_promoteTo;
 }
 
-std::string Move::toString() {
+std::string Move::toNotation() {
 	std::string moveNotation = "";
   moveNotation += GetFile(m_from) + 'a';
 	moveNotation += GetRank(m_from) + '1';

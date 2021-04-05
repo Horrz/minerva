@@ -29,5 +29,5 @@ std::string Engine::move() {
   
   m_isThinking = false;
   
-  return m_moveList.at(rand() % m_moveList.size()).toString();
+  return m_moveList.at(rand() % m_moveList.size()).toNotation();
 }

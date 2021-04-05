@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <iostream>
 #include <iterator>
 #include <ostream>
@@ -46,6 +47,19 @@ int UCI::respond(const std::string& input, Engine& engine) {
     engine.reset();
     return 0;
   }
+
+  if (std::regex_match(input, std::regex("^position startpos(.*)") )) { 
+    engine.reset();
+    std::match_results<std::string::const_iterator> matches;
+    std::regex_match(input, matches, std::regex("[a-zA-Z0-9]{4,5}"));
+    
+    for (size_t i = 0; i < matches.size(); ++i) {
+        std::cout << i << ": '" << matches[i].str() << "'\n";
+    }
+
+    return 0;
+  }
+
   if (std::regex_match(input, std::regex("^go(.*)") )) { 
     engine.analyze();
     return 0;

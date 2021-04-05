@@ -7,8 +7,9 @@ class Move {
   public:
     Move(Square from, Square to);
     Move(Square from, Square to, Piece promoteTo);
+    Move(std::string moveNotation);
     ~Move();
-    std::string toString();
+    std::string toNotation();
     Square getFrom();
     Square getTo();
     Piece getPromoteTo();
